@@ -100,13 +100,13 @@ def main() -> None:
         results = p.stdout.decode('utf-8')
         print(results)
 
-        with open(f'results-{username}.txt', 'w') as f:
+        with open(f'results-{category}{number}-{username}.txt', 'w') as f:
             f.write(results)
 
         push_results_commands = f'''
         pwd
         ls
-        cp ./results-{username}.txt {repo_dir}
+        cp ./results-{category}{number}-{username}.txt {repo_dir}
         cd {repo_dir}
         pwd
         ls
@@ -120,8 +120,10 @@ def main() -> None:
         print(results)
     except MethodError as e:
         print(e.message)
+        raise e
     except ChildProcessError as cpe:
         print('Child process error was caught')
+        raise cpe
 
 
 if __name__ == '__main__':
