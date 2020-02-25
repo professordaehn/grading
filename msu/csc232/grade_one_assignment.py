@@ -65,7 +65,7 @@ def main() -> None:
             raise MethodError(method, 'Invalid method for cloning a repo was given.')
 
         print(f'Attempting to clone {url} ...')
-        p = subprocess.run(["git", "clone", url], capture_output=True)
+        p = subprocess.run(["git", "clone", url], capture_output=True, check=True)
         if p.returncode == 128:
             problem = p.stderr.decode('utf-8')
             if "ERROR" in problem:
