@@ -1,9 +1,8 @@
 import unittest
 import os
 import subprocess
-import shutil
 
-from csc131 import grade_tools
+from msu.csc131 import grade_tools
 from sys import stdout
 
 

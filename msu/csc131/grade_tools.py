@@ -120,7 +120,7 @@ def build_test_target(repo=None) -> bool:
         return False
 
     print("Navigating back up one directory...")
-    navigate_to('..')
+    navigate_to('../..')
     return cmake_process.returncode == 0 or make_process.returncode == 0
 
 
@@ -148,7 +148,7 @@ def run_test_target(assignment=None) -> bool:
     else:
         print('No test target built.')
         print("Navigating back up one directory")
-    navigate_to('..')
+    navigate_to('../..')
     return result
 
 
