@@ -27,6 +27,8 @@ def get_repo_url(args: Namespace) -> str:
     :rtype: object
     :param args: a Namespace containing parsed command-line arguments
     :return: The assignment repository url is returned.
+    :raises AttributeError if any of the required attributes are missing in args
+    :raises MethodError if an invalid cloning method is supplied in the given args
     """
     category = args.category
     number = args.number
