@@ -1,8 +1,6 @@
 from argparse import Namespace
-
-import mock as mock
-
 from msu.csc232.exceptions.grading_exceptions import MethodError
+from msu.csc232.grade_one_assignment import get_parameters
 from msu.csc232.grade_one_assignment import get_repo_url
 from nimoy.specification import Specification
 
@@ -11,6 +9,22 @@ class GradeOneAssignmentSpec(Specification):
     """
     A Nimoy spec to test the GradeOneAssignment module.
     """
+
+    def get_parameters_returns_parser_with_five_attributes(self) -> None:
+        """
+        Feature method to validate that a command-line parser is created
+        that has the desired attributes to grade an assignment.
+        :return: None
+        """
+        with given:
+            namespace = get_parameters()
+        with expect:
+            hasattr(namespace, 'category')
+            hasattr(namespace, 'number')
+            hasattr(namespace, 'username')
+            hasattr(namespace, 'title')
+            hasattr(namespace, 'method')
+
 
     def get_repo_url_formats_ssh_method(self) -> None:
         """
