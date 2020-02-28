@@ -1,6 +1,6 @@
-from nimoy.specification import Specification
-from unittest import mock
+from argparse import Namespace
 from msu.csc232.grade_one_assignment import get_repo_url
+from nimoy.specification import Specification
 
 
 class GradeOneAssignmentSpec(Specification):
@@ -9,19 +9,14 @@ class GradeOneAssignmentSpec(Specification):
     """
 
     def get_repo_url_formats_ssh_method(self) -> None:
+        """
+        Feature method to test that get_repo_url method formats the
+        proper url for cloning.
+        :return: None
+        """
         with given:
-            mock_namespace = mock.Mock()
+            namespace = Namespace(category='lab', number='04', username='username', title='title', method='ssh')
         with when:
-            mock_namespace.category() >> 'lab'
-            mock_namespace.number() >> '04'
-            mock_namespace.username() >> 'username'
-            mock_namespace.title() >> 'title'
-            mock_namespace.method() >> 'ssh'
-            url = get_repo_url(mock_namespace)
+            url = get_repo_url(namespace)
         with then:
-            1 * mock_namespace.category()
-            1 * mock_namespace.number()
-            1 * mock_namespace.username()
-            1 * mock_namespace.title()
-            1 * mock_namespace.method()
             url == 'git@github.com:msu-csc232-sp20/lab04-title-username.git'
