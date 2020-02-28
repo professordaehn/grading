@@ -55,6 +55,7 @@ def main() -> None:
         args = get_parameters()
         url = get_repo_url(args)
 
+        # Clone the assignment repository
         print(f'Attempting to clone {url} ...')
         p = subprocess.run(["git", "clone", url], check=True, capture_output=True)
         if p.returncode == 128:
@@ -68,6 +69,7 @@ def main() -> None:
             raise ChildProcessError
         print('Success!')
 
+        # Checkout develop branch, build targets and run unit tests
         cwd = os.path.dirname(os.path.realpath(__file__))
         mf = f'{cwd}/{url}'[len(cwd + 'git@github.com:msu-csc232-sp20/') + 1:-4]
         repo_dir = f'{cwd}/{mf}'
@@ -91,6 +93,7 @@ def main() -> None:
         results = p.stdout.decode('utf-8')
         print(results)
 
+        # Provide feedback to students with a new file in their repo
         with open(f'results-{args.category}{args.number}-{args.username}.txt', 'w') as f:
             f.write(results)
 
