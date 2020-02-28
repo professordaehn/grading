@@ -28,11 +28,11 @@ def get_repo_url(args: Namespace) -> str:
     :param args: a Namespace containing parsed command-line arguments
     :return: The assignment repository url is returned.
     """
-    category = args.category()
-    number = args.number()
-    username = args.username()
-    title = args.title()
-    method = args.method()
+    category = args.category
+    number = args.number
+    username = args.username
+    title = args.title
+    method = args.method
     repo = f'{category}{number}-{title}-{username}.git'
 
     if method == 'https':
@@ -51,22 +51,24 @@ def main() -> None:
     """
     try:
         args = get_parameters()
-        category = args.category
-        number = args.number
-        username = args.username
-        title = args.title
-        method = args.method
-        repo = f'{category}{number}-{title}-{username}.git'
+        # category = args.category
+        # number = args.number
+        # username = args.username
+        # title = args.title
+        # method = args.method
+        # repo = f'{category}{number}-{title}-{username}.git'
+        #
+        # if method == 'https':
+        #     url = f'{method}://github.com/msu-csc232-sp20/{repo}'
+        # elif method == 'ssh':
+        #     url = f'git@github.com:msu-csc232-sp20/{repo}'
+        # else:
+        #     raise MethodError(method, 'Invalid method for cloning a repo was given.')
 
-        if method == 'https':
-            url = f'{method}://github.com/msu-csc232-sp20/{repo}'
-        elif method == 'ssh':
-            url = f'git@github.com:msu-csc232-sp20/{repo}'
-        else:
-            raise MethodError(method, 'Invalid method for cloning a repo was given.')
+        url = get_repo_url(args)
 
         print(f'Attempting to clone {url} ...')
-        p = subprocess.run(["git", "clone", url], capture_output=True, check=True)
+        p = subprocess.run(["git", "clone", url], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if p.returncode == 128:
             problem = p.stderr.decode('utf-8')
             if "ERROR" in problem:
@@ -94,20 +96,20 @@ def main() -> None:
         cmake -G "Unix Makefiles" ..
         make
         echo "\n\n------ Running Test Target ------\n"
-        ./{category}{number}Test
+        ./{args.category}{args.number}Test
         cd ../..
         '''
-        p = subprocess.run([f'{grade_assignment_commands}'], shell=True, capture_output=True)
+        p = subprocess.run([f'{grade_assignment_commands}'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         results = p.stdout.decode('utf-8')
         print(results)
 
-        with open(f'results-{category}{number}-{username}.txt', 'w') as f:
+        with open(f'results-{args.category}{args.number}-{args.username}.txt', 'w') as f:
             f.write(results)
 
         push_results_commands = f'''
         pwd
         ls
-        cp ./results-{category}{number}-{username}.txt {repo_dir}
+        cp ./results-{args.category}{args.number}-{args.username}.txt {repo_dir}
         cd {repo_dir}
         pwd
         ls
@@ -116,7 +118,7 @@ def main() -> None:
         git push
         cd ..
         '''
-        p = subprocess.run([f'{push_results_commands}'], shell=True, capture_output=True)
+        p = subprocess.run([f'{push_results_commands}'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         results = p.stdout.decode('utf-8')
         print(results)
     except MethodError as e:
