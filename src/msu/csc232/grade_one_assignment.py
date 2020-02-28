@@ -54,7 +54,7 @@ def main() -> None:
         url = get_repo_url(args)
 
         print(f'Attempting to clone {url} ...')
-        p = subprocess.run(["git", "clone", url], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.run(["git", "clone", url], check=True, capture_output=True)
         if p.returncode == 128:
             problem = p.stderr.decode('utf-8')
             if "ERROR" in problem:
@@ -85,7 +85,7 @@ def main() -> None:
         ./{args.category}{args.number}Test
         cd ../..
         '''
-        p = subprocess.run([f'{grade_assignment_commands}'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.run([f'{grade_assignment_commands}'], shell=True, capture_output=True)
         results = p.stdout.decode('utf-8')
         print(results)
 
@@ -104,7 +104,7 @@ def main() -> None:
         git push
         cd ..
         '''
-        p = subprocess.run([f'{push_results_commands}'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.run([f'{push_results_commands}'], shell=True, capture_output=True)
         results = p.stdout.decode('utf-8')
         print(results)
     except MethodError as e:
