@@ -51,20 +51,6 @@ def main() -> None:
     """
     try:
         args = get_parameters()
-        # category = args.category
-        # number = args.number
-        # username = args.username
-        # title = args.title
-        # method = args.method
-        # repo = f'{category}{number}-{title}-{username}.git'
-        #
-        # if method == 'https':
-        #     url = f'{method}://github.com/msu-csc232-sp20/{repo}'
-        # elif method == 'ssh':
-        #     url = f'git@github.com:msu-csc232-sp20/{repo}'
-        # else:
-        #     raise MethodError(method, 'Invalid method for cloning a repo was given.')
-
         url = get_repo_url(args)
 
         print(f'Attempting to clone {url} ...')
