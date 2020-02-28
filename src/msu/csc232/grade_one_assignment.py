@@ -24,14 +24,15 @@ def get_parameters() -> Namespace:
 def get_repo_url(args: Namespace) -> str:
     """
     Extract the assignment repository url from the given Namespace.
+    :rtype: object
     :param args: a Namespace containing parsed command-line arguments
     :return: The assignment repository url is returned.
     """
-    category = args.category
-    number = args.number
-    username = args.username
-    title = args.title
-    method = args.method
+    category = args.category()
+    number = args.number()
+    username = args.username()
+    title = args.title()
+    method = args.method()
     repo = f'{category}{number}-{title}-{username}.git'
 
     if method == 'https':

@@ -2,7 +2,7 @@ import unittest
 import os
 import subprocess
 
-from msu.csc131 import grade_tools
+from src.msu.csc131 import grade_tools
 from sys import stdout
 
 
